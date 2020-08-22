@@ -28,7 +28,7 @@ const articleSchema = {
 
 const Article = mongoose.model("Article", articleSchema);
 
-
+////////////////////////////////////////////////////REQUEST TARGETING ALL ARTICLES//////////////////////////////////////////////////////
 //there no semicolon in chain, because you dont want them to end
 app
   .route("/articles")
@@ -64,6 +64,24 @@ app
         res.send("Deleted all articles successfully");
       } else {
         res.send(err);
+      }
+    });
+  });
+
+////////////////////////////////////////////////REQUEST TARGETING A SPECIFIC ARTICLES//////////////////////////////////////////////////////
+
+app
+  .route("/articles/:articleTitle")
+
+  .get(function (req, res) {
+    Article.findOne({ title: req.params.articleTitle }, function (
+      err,
+      foundArticle
+    ) {
+      if (foundArticle) {
+        res.send(foundArticle);
+      } else {
+        res.send("No article matching that title found.");
       }
     });
   });
